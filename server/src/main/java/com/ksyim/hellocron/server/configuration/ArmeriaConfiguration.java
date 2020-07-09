@@ -3,6 +3,7 @@ package com.ksyim.hellocron.server.configuration;
 import com.ksyim.hellocron.server.controller.CronController;
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.client.logging.LoggingClient;
+import com.linecorp.armeria.common.util.EventLoopGroups;
 import com.linecorp.armeria.server.docs.DocService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
@@ -19,12 +20,13 @@ import java.util.concurrent.TimeUnit;
 public class ArmeriaConfiguration {
 
     @Bean
-    public ArmeriaServerConfigurator armeriaServerConfigurator(WebClient webClient) {
+    public ArmeriaServerConfigurator armeriaServerConfigurator(WebClient webClient, EventLoopGroup workerGroup) {
         return builder -> {
-            EventLoopGroup workerGroup = new NioEventLoopGroup(1);
             workerGroup.scheduleAtFixedRate(() -> {
-                System.out.println("working");
-            }, 5000, 5000, TimeUnit.MILLISECONDS);
+                webClient.get("/api").aggregate().thenAccept(res -> {
+                    System.out.println("######helloworld!######");
+                });
+            }, 3000, 3000, TimeUnit.MILLISECONDS);
             builder.workerGroup(workerGroup, true)
                     .decorator(LoggingService.newDecorator())
                     .accessLogWriter(AccessLogWriter.combined(), false)
@@ -33,8 +35,13 @@ public class ArmeriaConfiguration {
     }
 
     @Bean
+    public EventLoopGroup getEventLoopWorkerGroup() {
+        return EventLoopGroups.newEventLoopGroup(4);
+    }
+
+    @Bean
     public WebClient webClient() {
-        return WebClient.builder("http://127.0.0.1:5000")
+        return WebClient.builder("http://127.0.0.1:5008")
                 .decorator(LoggingClient.newDecorator())
                 .build();
     }
