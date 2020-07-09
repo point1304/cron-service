@@ -8,24 +8,33 @@ import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
 import com.linecorp.armeria.spring.AnnotatedServiceRegistrationBean;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
+import io.netty.channel.EventLoopGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.concurrent.TimeUnit;
 
 @Configuration
 public class ArmeriaConfiguration {
 
     @Bean
-    public ArmeriaServerConfigurator armeriaServerConfigurator() {
+    public ArmeriaServerConfigurator armeriaServerConfigurator(WebClient webClient) {
         return builder -> {
-            builder.decorator(LoggingService.newDecorator())
+            EventLoopGroup workerGroup = new NioEventLoopGroup(1);
+            workerGroup.scheduleAtFixedRate(() -> {
+                System.out.println("working");
+            }, 5000, 5000, TimeUnit.MILLISECONDS);
+            builder.workerGroup(workerGroup, true)
+                    .decorator(LoggingService.newDecorator())
                     .accessLogWriter(AccessLogWriter.combined(), false)
                     .serviceUnder("/docs", new DocService());
         };
     }
 
-     @Bean
+    @Bean
     public WebClient webClient() {
-        return WebClient.builder()
+        return WebClient.builder("http://127.0.0.1:5000")
                 .decorator(LoggingClient.newDecorator())
                 .build();
     }

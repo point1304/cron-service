@@ -2,6 +2,7 @@ package com.ksyim.hellocron.server.controller;
 
 import com.ksyim.hellocron.server.entity.User;
 import com.linecorp.armeria.client.WebClient;
+import com.linecorp.armeria.common.HttpResponse;
 import com.linecorp.armeria.server.annotation.*;
 import lombok.AllArgsConstructor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
@@ -11,7 +12,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ScheduledFuture;
 
 @Controller
@@ -22,8 +22,8 @@ public class CronController {
     private final Map<String, ScheduledFuture> cronMap = new HashMap<>();
 
     @Get("/")
-    public String root() {
-        return "hello, cron!";
+    public HttpResponse root() {
+        return webClient.get("/");
     }
 
     @Get("/schedule/{eventName}/{frequency}")
