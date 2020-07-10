@@ -6,8 +6,8 @@ plugins {
 dependencyManagement {
     imports {
         mavenBom("io.micrometer:micrometer-bom:1.5.1")
-        mavenBom("com.linecorp.armeria:armeria-bom:0.99.5")
         mavenBom("io.netty:netty-bom:4.1.50.Final")
+        mavenBom("com.linecorp.armeria:armeria-bom:0.99.5")
         mavenBom("org.junit:junit-bom:5.6.1")
     }
 }
