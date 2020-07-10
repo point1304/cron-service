@@ -1,6 +1,8 @@
 package com.ksyim.hellocron.server.configuration;
 
 import com.ksyim.hellocron.server.controller.CronController;
+import com.linecorp.armeria.client.ClientFactory;
+import com.linecorp.armeria.client.ClientFactoryBuilder;
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.common.util.EventLoopGroups;
@@ -17,9 +19,9 @@ import org.springframework.context.annotation.Configuration;
 public class ArmeriaConfiguration {
 
     @Bean
-    public ArmeriaServerConfigurator armeriaServerConfigurator(EventLoopGroup workerGroup) {
+    public ArmeriaServerConfigurator armeriaServerConfigurator() {
         return builder -> {
-            builder.workerGroup(workerGroup, true)
+            builder
                     .decorator(LoggingService.newDecorator())
                     .accessLogWriter(AccessLogWriter.combined(), false)
                     .serviceUnder("/docs", new DocService());
