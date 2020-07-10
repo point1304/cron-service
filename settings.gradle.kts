@@ -1,3 +1,2 @@
-rootProject.name = "hello-cron"
+rootProject.name = "cron-service"
 include("server")
-include("task-dispatcher")
