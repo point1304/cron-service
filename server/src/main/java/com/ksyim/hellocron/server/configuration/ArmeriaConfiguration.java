@@ -1,10 +1,9 @@
 package com.ksyim.hellocron.server.configuration;
 
 import com.ksyim.hellocron.server.controller.CronController;
-import com.linecorp.armeria.client.ClientFactory;
-import com.linecorp.armeria.client.ClientFactoryBuilder;
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.client.logging.LoggingClient;
+import com.linecorp.armeria.common.auth.OAuth2Token;
 import com.linecorp.armeria.common.util.EventLoopGroups;
 import com.linecorp.armeria.server.docs.DocService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
@@ -34,9 +33,17 @@ public class ArmeriaConfiguration {
     }
 
     @Bean
-    public WebClient webClient() {
-        return WebClient.builder("http://localhost:5008")
+    public WebClient lineBotClient() {
+        return WebClient.builder()
                 .decorator(LoggingClient.newDecorator())
+                .build();
+    }
+
+    @Bean
+    public WebClient webClient() {
+        return WebClient.builder("https://api.line.me")
+                .decorator(LoggingClient.newDecorator())
+                .auth(OAuth2Token.of(System.getenv("LINE_MESSAGING_API_TOKEN")))
                 .build();
     }
 
