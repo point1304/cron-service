@@ -1,5 +1,6 @@
 package com.ksyim.hellocron.server.cron;
 
+import com.linecorp.armeria.common.CommonPools;
 import io.netty.channel.EventLoopGroup;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +12,10 @@ import java.util.concurrent.TimeUnit;
 abstract public class AbstractCronScheduler implements CronScheduler {
 
     protected final EventLoopGroup workerGroup;
+
+    public AbstractCronScheduler() {
+        this.workerGroup = CommonPools.workerGroup();
+    }
 
     public AbstractCronScheduler(EventLoopGroup workerGroup) {
         this.workerGroup = workerGroup;

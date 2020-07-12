@@ -7,6 +7,10 @@ import java.util.Date;
 
 public class DefaultCronScheduler extends AbstractCronScheduler {
 
+    public DefaultCronScheduler() {
+        super();
+    }
+
     public DefaultCronScheduler(EventLoopGroup workerGroup) {
         super(workerGroup);
     }
