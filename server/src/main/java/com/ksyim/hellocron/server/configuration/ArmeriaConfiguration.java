@@ -14,8 +14,14 @@ import io.netty.channel.EventLoopGroup;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import static java.util.Objects.requireNonNull;
+
 @Configuration
 public class ArmeriaConfiguration {
+
+    static final String LINE_MESSAGING_API_TOKEN = requireNonNull(
+            System.getenv("LINE_MESSAGING_API_TOKEN"),
+            "environment variable `LINE_MESSAGING_API_TOKEN` is not set");
 
     @Bean
     public ArmeriaServerConfigurator armeriaServerConfigurator() {
@@ -43,7 +49,7 @@ public class ArmeriaConfiguration {
     public WebClient webClient() {
         return WebClient.builder("https://api.line.me")
                 .decorator(LoggingClient.newDecorator())
-                .auth(OAuth2Token.of(System.getenv("LINE_MESSAGING_API_TOKEN")))
+                .auth(OAuth2Token.of(LINE_MESSAGING_API_TOKEN))
                 .build();
     }
 
