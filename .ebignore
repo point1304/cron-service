@@ -1,7 +1,17 @@
-# exclude eveything
-*
+.gradle/
+.idea/
+.git/
 
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+src/
+build/
+gradle/
+!**/build/libs/*.jar
+
+/*
 !Procfile
-!build/libs/*.jar
-!server/build/libs/*.jar
-!.ebextensions/https-instance-securitygroup.config
+**/build.gradle.kts
