@@ -1,5 +1,7 @@
-/*
+# exclude eveything
+*
 
-!build/libs/
-!.platform/
-!.ebextensions/
+!Procfile
+!build/libs/*.jar
+!server/build/libs/*.jar
+!.ebextensions/https-instance-securitygroup.config
