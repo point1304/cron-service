@@ -26,8 +26,7 @@ public class ArmeriaConfiguration {
     @Bean
     public ArmeriaServerConfigurator armeriaServerConfigurator() {
         return builder -> {
-            builder
-                    .decorator(LoggingService.newDecorator())
+            builder.decorator(LoggingService.newDecorator())
                     .accessLogWriter(AccessLogWriter.combined(), false)
                     .serviceUnder("/docs", new DocService());
         };
@@ -56,8 +55,8 @@ public class ArmeriaConfiguration {
     @Bean
     public AnnotatedServiceRegistrationBean annotatedService(CronController cronService) {
         return new AnnotatedServiceRegistrationBean()
-                .setPathPrefix("/")
+                .setPathPrefix("/line")
                 .setService(cronService)
-                .setServiceName("cron-service");
+                .setServiceName("lint-bot");
     }
 }
