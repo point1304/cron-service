@@ -16,7 +16,7 @@ dependencies {
     implementation("com.google.code.findbugs:jsr305:3.0.2")
 
     implementation("io.projectreactor:reactor-core:3.3.5.RELEASE")
-    implementation("com.linecorp.armeria:armeria-spring-boot2-starter")
+    implementation("com.linecorp.armeria:armeria-spring-boot-starter")
     implementation("org.hibernate.validator:hibernate-validator")
 
     runtimeOnly("com.linecorp.armeria:armeria-spring-boot-actuator-starter")
@@ -24,7 +24,5 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude("org.junit.vintage:junit-vintage-engine")
     }
-    testImplementation("org.mockito:mockito-junit-jupiter:2.23.0")
     testImplementation("io.projectreactor:reactor-test")
-
 }
