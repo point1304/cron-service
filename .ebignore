@@ -1,5 +1,17 @@
-/*
+.gradle/
+.idea/
+.git/
 
-!build/libs/
-!.platform/
-!.ebextensions/
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+src/
+build/
+gradle/
+!**/build/libs/*.jar
+
+/*
+!Procfile
+**/build.gradle.kts
