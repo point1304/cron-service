@@ -23,9 +23,8 @@ public class ArmeriaConfiguration {
             System.getenv("LINE_MESSAGING_API_TOKEN"),
             "environment variable `LINE_MESSAGING_API_TOKEN` is not set");
 
-    static final int PORT = requireNonNull(
-            System.getenv("PORT"),
-            "environment variable `PORT` is not set");
+    static final int PORT = Integer.parseInt(
+            requireNonNull(System.getenv("PORT"), "environment variable `PORT` is not set"));
 
     @Bean
     public ArmeriaServerConfigurator armeriaServerConfigurator() {
