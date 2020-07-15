@@ -4,11 +4,16 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = LineMessageWebhookEvent.class, name = "message")
+        @JsonSubTypes.Type(value = LineMessageWebhookEvent.class, name = LineWebhookEvent.MESSAGE_TYPE_NAME)
 })
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "type",
         visible = true
 )
-interface LineWebhookEvent {}
+interface LineWebhookEvent {
+    String MESSAGE_TYPE_NAME = "message";
+    String FOLLOW_TYPE_NAME = "follow";
+    String UNFOLLOW_TYPE_NAME = "unfollow";
+    String JOIN_TYPE_NAME = "join";
+}

@@ -12,7 +12,7 @@ import lombok.Value;
 
 @Value
 @Builder
-@JsonTypeName("message")
+@JsonTypeName(LineWebhookEvent.MESSAGE_TYPE_NAME)
 @JsonDeserialize(builder = LineMessageWebhookEvent.LineMessageWebhookEventBuilder.class)
 public class LineMessageWebhookEvent implements LineWebhookEvent{
 
