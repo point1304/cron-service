@@ -13,11 +13,14 @@ dependencyManagement {
 }
 
 dependencies {
+    implementation(project(":util"))
+
     implementation("com.google.code.findbugs:jsr305:3.0.2")
 
     implementation("io.projectreactor:reactor-core:3.3.5.RELEASE")
     implementation("com.linecorp.armeria:armeria-spring-boot-starter")
     implementation("org.hibernate.validator:hibernate-validator")
+    implementation("com.beust:jcommander:1.78")
 
     runtimeOnly("com.linecorp.armeria:armeria-spring-boot-actuator-starter")
 

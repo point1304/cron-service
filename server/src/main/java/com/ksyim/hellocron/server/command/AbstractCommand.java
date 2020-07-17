@@ -1,4 +1,10 @@
 package com.ksyim.hellocron.server.command;
 
-public class AbstractCommand {
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+
+public abstract class AbstractCommand {
+
+    @Parameter(names = {"-v", "--verbose"}, description = "display logs")
+    public boolean verbose;
 }
