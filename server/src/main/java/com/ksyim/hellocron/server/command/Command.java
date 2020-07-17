@@ -1,0 +1,4 @@
+package com.ksyim.hellocron.server.command;
+
+public interface Command {
+}
