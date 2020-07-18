@@ -29,3 +29,8 @@ dependencies {
     }
     testImplementation("io.projectreactor:reactor-test")
 }
+
+tasks.withType<Test> {
+    environment("LINE_MESSAGING_API_TOKEN", "mock-token")
+    environment("PORT", "5000")
+}
