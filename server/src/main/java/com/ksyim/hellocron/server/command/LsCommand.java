@@ -4,8 +4,11 @@ import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
+import com.ksyim.hellocron.server.cron.CronScheduler;
 
 import java.util.List;
+
+import com.linecorp.armeria.client.WebClient;
 
 @Command
 @Parameters(separators = "=", commandDescription = "List scheduled tasks.")
@@ -22,6 +25,7 @@ public class LsCommand extends AbstractCommand {
     )
     public static String only;
 
+    // TODO: Replace JCommander validation with Hibernate validation.
     public static class OnlyParamValidator implements IParameterValidator {
 
         private List<String> allowedValues = List.of("at", "cron");
@@ -48,5 +52,10 @@ public class LsCommand extends AbstractCommand {
 
             return String.format(sb.toString(), allowedValues.toArray());
         }
+    }
+
+    @Override
+    public void execute(WebClient client, CronScheduler cronScheduler) {
+
     }
 }
