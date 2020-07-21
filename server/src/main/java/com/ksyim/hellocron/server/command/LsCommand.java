@@ -9,22 +9,22 @@ import java.util.List;
 
 @Command
 @Parameters(separators = "=", commandDescription = "List scheduled tasks.")
-public class LsTask {
+public class LsCommand extends AbstractCommand {
 
     @Parameter(names = {"-a", "--all"}, description = "Show all scheduled tasks.")
-    public boolean all = true;
+    public static boolean all;
 
     @Parameter(
             names = {"-o", "--only"},
             description = "Show either `cron` or `at` task only. " +
-                    "Having this flag on automatically disables `--all` flag.",
+                    "With this flag on, `--all` flag will be ignored.",
             validateWith = OnlyParamValidator.class
     )
-    public String only;
+    public static String only;
 
-    private static class OnlyParamValidator implements IParameterValidator {
+    public static class OnlyParamValidator implements IParameterValidator {
 
-        static private List<String> allowedValues = List.of("at", "cron");
+        private List<String> allowedValues = List.of("at", "cron");
 
         @Override
         public void validate(String name, String value) throws ParameterException {
@@ -37,14 +37,16 @@ public class LsTask {
         public String getExceptionMessageWithParamName(String paramName) {
             StringBuilder sb = new StringBuilder();
 
-            sb.append("Parameter `%s` must be either ");
+            sb.append("Prameter `");
+            sb.append(paramName);
+            sb.append("` must be either ");
             sb.append("`%s`");
             for (int i = 1; i < allowedValues.size() - 1; i++) {
                 sb.append(", `%s`");
             }
-            sb.append("or `%s`");
+            sb.append(" or `%s`");
 
-            return String.format(sb.toString(), paramName, allowedValues);
+            return String.format(sb.toString(), allowedValues.toArray());
         }
     }
 }

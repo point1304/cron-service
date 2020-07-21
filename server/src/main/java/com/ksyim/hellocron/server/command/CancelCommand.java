@@ -7,9 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Command
-@Parameters(separators = "=", commandDescription = "Register a cron-job with a cron expression.")
-public class RegisterCronCommand extends AbstractCommand {
+@Parameters(separators = "=", commandDescription = "Cancel a task with given task name")
+public class CancelCommand extends AbstractCommand {
 
-    @Parameter
-    public List<String> params = new ArrayList<>();
+    @Parameter(description = "[task name]")
+    public String taskName;
 }
