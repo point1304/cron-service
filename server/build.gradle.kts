@@ -20,6 +20,7 @@ dependencies {
     implementation("io.projectreactor:reactor-core:3.3.5.RELEASE")
     implementation("com.linecorp.armeria:armeria-spring-boot-starter")
     implementation("org.hibernate.validator:hibernate-validator")
+
     implementation("com.beust:jcommander:1.78")
 
     runtimeOnly("com.linecorp.armeria:armeria-spring-boot-actuator-starter")
@@ -28,9 +29,13 @@ dependencies {
         exclude("org.junit.vintage:junit-vintage-engine")
     }
     testImplementation("io.projectreactor:reactor-test")
+
+    compileOnly("org.hibernate.validator:hibernate-validator-annotation-processor")
+    annotationProcessor("org.hibernate.validator:hibernate-validator-annotation-processor")
 }
 
 tasks.withType<Test> {
     environment("LINE_MESSAGING_API_TOKEN", "mock-token")
     environment("PORT", "5000")
+    environment("ARMERIA_ENV", "production")
 }

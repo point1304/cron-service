@@ -1,29 +1,34 @@
 package com.ksyim.hellocron.server.command;
 
+import java.util.List;
+
 import com.beust.jcommander.IParameterValidator;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.ParameterException;
 import com.beust.jcommander.Parameters;
+import com.ksyim.hellocron.server.bot.context.WebhookContext;
+import com.ksyim.hellocron.server.bot.service.BotService;
 import com.ksyim.hellocron.server.cron.CronScheduler;
 
-import java.util.List;
-
-import com.linecorp.armeria.client.WebClient;
-
-@Command
+//@AsCommand
 @Parameters(separators = "=", commandDescription = "List scheduled tasks.")
 public class LsCommand extends AbstractCommand {
 
-    @Parameter(names = {"-a", "--all"}, description = "Show all scheduled tasks.")
+    @Parameter(names = { "-a", "--all" }, description = "Show all scheduled tasks.")
     public static boolean all;
 
     @Parameter(
-            names = {"-o", "--only"},
+            names = { "-o", "--only" },
             description = "Show either `cron` or `at` task only. " +
-                    "With this flag on, `--all` flag will be ignored.",
+                          "With this flag on, `--all` flag will be ignored.",
             validateWith = OnlyParamValidator.class
     )
     public static String only;
+
+    @Override
+    public void execute(BotService service, CronScheduler cronScheduler, WebhookContext ctx) {
+        service.replyMessage("hello world!", ctx.getSourceIdToken());
+    }
 
     // TODO: Replace JCommander validation with Hibernate validation.
     public static class OnlyParamValidator implements IParameterValidator {
@@ -52,10 +57,5 @@ public class LsCommand extends AbstractCommand {
 
             return String.format(sb.toString(), allowedValues.toArray());
         }
-    }
-
-    @Override
-    public void execute(WebClient client, CronScheduler cronScheduler) {
-
     }
 }

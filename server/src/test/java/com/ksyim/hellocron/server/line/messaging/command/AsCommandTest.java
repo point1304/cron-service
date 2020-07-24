@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 
 @ExtendWith(MockitoExtension.class)
-public class CommandTest {
+public class AsCommandTest {
 
     @Test
     public void test__CommandBuilderPolymorphicInstantiation() {

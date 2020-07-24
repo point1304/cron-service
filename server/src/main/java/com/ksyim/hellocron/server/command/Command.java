@@ -1,13 +1,10 @@
 package com.ksyim.hellocron.server.command;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.annotation.Inherited;
+import com.ksyim.hellocron.server.bot.context.WebhookContext;
+import com.ksyim.hellocron.server.bot.service.BotService;
+import com.ksyim.hellocron.server.cron.CronScheduler;
 
-@Retention(RetentionPolicy.RUNTIME)
-@Target({ ElementType.TYPE })
-@Inherited
-public @interface Command {
+public interface Command {
+
+    void execute(BotService service, CronScheduler cronScheduler, WebhookContext ctx);
 }

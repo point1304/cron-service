@@ -60,14 +60,14 @@ public class ArmeriaConfiguration {
     }
 
     @Bean
-    public WebClient lineBotClient() {
+    public WebClient webClient() {
         return WebClient.builder()
                 .decorator(LoggingClient.newDecorator())
                 .build();
     }
 
     @Bean
-    public WebClient webClient(ClientFactory factory) {
+    public WebClient lineMessagingClient(ClientFactory factory) {
         return WebClient.builder("http://localhost:3000")
                 .factory(factory)
                 .decorator(LoggingClient.newDecorator())

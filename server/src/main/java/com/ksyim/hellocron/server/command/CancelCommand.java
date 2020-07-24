@@ -2,14 +2,11 @@ package com.ksyim.hellocron.server.command;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
+import com.ksyim.hellocron.server.bot.context.WebhookContext;
+import com.ksyim.hellocron.server.bot.service.BotService;
 import com.ksyim.hellocron.server.cron.CronScheduler;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.linecorp.armeria.client.WebClient;
-
-@Command
+//@AsCommand
 @Parameters(separators = "=", commandDescription = "Cancel a task with given task name")
 public class CancelCommand extends AbstractCommand {
 
@@ -17,7 +14,7 @@ public class CancelCommand extends AbstractCommand {
     public String taskName;
 
     @Override
-    public void execute(WebClient client, CronScheduler cronScheduler) {
+    public void execute(BotService service, CronScheduler cronScheduler, WebhookContext ctx) {
 
     }
 }
