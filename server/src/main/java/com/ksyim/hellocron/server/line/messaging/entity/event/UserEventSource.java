@@ -16,6 +16,11 @@ public class UserEventSource implements EventSource {
 
     String userId;
 
+    @Override
+    public String getTo() {
+        return userId;
+    }
+
     @JsonPOJOBuilder(withPrefix = "")
     public static class UserEventSourceBuilder {}
 }

@@ -15,6 +15,11 @@ public class GroupEventSource implements EventSource {
     String userId;
     String groupId;
 
+    @Override
+    public String getTo() {
+        return groupId;
+    }
+
     @JsonPOJOBuilder(withPrefix = "")
     public static class GroupEventSourceBuilder {}
 }

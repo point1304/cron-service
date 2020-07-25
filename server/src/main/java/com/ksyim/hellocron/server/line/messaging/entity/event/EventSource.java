@@ -17,4 +17,6 @@ public interface EventSource {
     String USER_TYPE_NAME = "user";
     String GROUP_TYPE_NAME = "group";
     String ROOM_TYPE_NAME = "room";
+
+    String getTo();
 }

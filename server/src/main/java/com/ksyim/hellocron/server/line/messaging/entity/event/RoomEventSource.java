@@ -15,6 +15,11 @@ public class RoomEventSource implements EventSource {
     String roomId;
     String userId;
 
+    @Override
+    public String getTo() {
+        return roomId;
+    }
+
     @JsonPOJOBuilder(withPrefix = "")
     public static class RoomEventSourceBuilder {}
 }

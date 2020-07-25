@@ -9,11 +9,15 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "type",
-        visible = true
+        visible = true,
+        defaultImpl = Void.class
 )
-interface LineWebhookEvent {
+public interface LineWebhookEvent {
     String MESSAGE_TYPE_NAME = "message";
     String FOLLOW_TYPE_NAME = "follow";
     String UNFOLLOW_TYPE_NAME = "unfollow";
     String JOIN_TYPE_NAME = "join";
+
+    EventSource getSource();
+    String getReplyToken();
 }

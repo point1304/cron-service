@@ -9,7 +9,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 @JsonTypeInfo(
         use = JsonTypeInfo.Id.NAME,
         property = "type",
-        visible = true
+        visible = true,
+        defaultImpl = Void.class
 )
 public interface LineMessage {
 
@@ -17,4 +18,6 @@ public interface LineMessage {
     String IMAGE_TYPE_NAME = "image";
     String VIDEO_TYPE_NAME = "video";
     String AUDIO_TYPE_NAME = "audio";
+
+    default String getText() { return ""; }
 }
