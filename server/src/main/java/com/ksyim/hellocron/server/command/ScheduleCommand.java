@@ -19,10 +19,10 @@ import lombok.NonNull;
 public class ScheduleCommand extends AbstractCommand {
 
     @CronExpression
-    @Parameter(names = "--cron", description = "schedule a cron task (can't be used with `--at`)")
+    @Parameter(names = "-cron", description = "schedule a cron task (can't be used with `--at`)")
     public String cron;
 
-    @Parameter(names = "--at",
+    @Parameter(names = "-at",
             description = "schedule a task at a specified time (can't be used with `--cron`)")
     public String at;
 
@@ -33,7 +33,7 @@ public class ScheduleCommand extends AbstractCommand {
     public String eventName;
 
     @Pattern(regexp = ".{5,300}", message = "message must be longer than 5 and shorter than 300")
-    @Parameter(names = { "--message", "-m" },
+    @Parameter(names = { "-message", "-m" },
             description = "Message to send. The number of characters in a message must be within 5 - 300.")
     public String message;
 

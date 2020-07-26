@@ -51,6 +51,7 @@ public abstract class AbstractCommandHandlerService implements CommandHandlerSer
     }
 
     private static JCommander getCommander() {
+        // TODO: implement builder caching
         JCommander.Builder jcBuilder = JCommander.newBuilder();
 
         for (Map.Entry<String, Class<?>> entry : commandClassMapping.entrySet()) {
@@ -91,11 +92,15 @@ public abstract class AbstractCommandHandlerService implements CommandHandlerSer
         return CaseUtils.pascalToKebab(className).replaceFirst("-command$", "");
     }
 
-    public void handleCommand(String input, WebhookContext ctx) {
+    public void handleCommand(String input, WebhookContext ctx) throws InvalidCommandException {
         CommandParser parser = parseCommand(input);
 
-        Command command = parser.getObject(ScheduleCommand.class);
-        validateAndExecute(command, ctx);
+        try {
+            Command command = parser.getObject(ScheduleCommand.class);
+            validateAndExecute(command, ctx);
+        } catch (Throwable t) {
+            throw new InvalidCommandException(t, parser.getJc());
+        }
     }
 
     private void validateAndExecute(Command command, WebhookContext ctx) {
@@ -136,6 +141,10 @@ public abstract class AbstractCommandHandlerService implements CommandHandlerSer
             if (subJc == null) { return clazz.cast(jc.getObjects().get(0)); } else {
                 return clazz.cast(subJc.getObjects().get(0));
             }
+        }
+
+        public JCommander getJc() {
+            return this.jc;
         }
 
         public String getParsedCommand() {

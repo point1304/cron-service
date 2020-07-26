@@ -4,5 +4,5 @@ public interface BotService {
 
     void sendMessage(String message, String identityToken);
 
-    void replyMessage(String message, String replyToken);
+    void sendReply(String message, String replyToken);
 }

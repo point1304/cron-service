@@ -13,7 +13,9 @@ import com.ksyim.hellocron.server.bot.entity.LineTextMessage;
 import com.linecorp.armeria.client.WebClient;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class LineBotService implements BotService {
@@ -32,16 +34,21 @@ public class LineBotService implements BotService {
                                    .build();
 
         try {
-            lineMessagingClient.post("/v2/bot/message/push",
-                                     mapper.writeValueAsString(pushMessage));
+            String body = mapper.writeValueAsString(pushMessage);
+            log.info("-:-:PUSH_MESSAGE:-:-:body <{}>", body);
+            lineMessagingClient.post("/v2/bot/message/push", body)
+                               .aggregate()
+                               .thenAccept(res -> log.info("-:-:PUSH_MESSAGE:-:-:response <{}>",
+                                                           res.contentUtf8()));
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public void replyMessage(String message,
-                             String replyToken) {
+    public void sendReply(String message,
+                          String replyToken) {
 
         LineReplyMessageBody replyMessage =
                 LineReplyMessageBody.builder()
@@ -50,8 +57,12 @@ public class LineBotService implements BotService {
                                     .build();
 
         try {
-            lineMessagingClient.post("/v2/bot/message/reply",
-                                     mapper.writeValueAsString(replyMessage));
+            String body = mapper.writeValueAsString(replyMessage);
+            log.info("-:-:REPLY_MESSAGE:-:-:body <{}>", body);
+            lineMessagingClient.post("/v2/bot/message/reply", body)
+                               .aggregate()
+                               .thenAccept(res -> log.info("-:-:REPLY_MESSAGE:-:-:response <{}>",
+                                                           res.contentUtf8()));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

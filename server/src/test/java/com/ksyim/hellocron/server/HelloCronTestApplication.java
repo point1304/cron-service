@@ -11,7 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import javax.inject.Inject;
 
 @ExtendWith(MockitoExtension.class)
-@SpringBootTest
 public class HelloCronTestApplication {
 
     @Inject

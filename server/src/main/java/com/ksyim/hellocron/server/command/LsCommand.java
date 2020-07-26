@@ -27,7 +27,7 @@ public class LsCommand extends AbstractCommand {
 
     @Override
     public void execute(BotService service, CronScheduler cronScheduler, WebhookContext ctx) {
-        service.replyMessage("hello world!", ctx.getSourceIdToken());
+        service.sendReply("hello world!", ctx.getSourceIdToken());
     }
 
     // TODO: Replace JCommander validation with Hibernate validation.

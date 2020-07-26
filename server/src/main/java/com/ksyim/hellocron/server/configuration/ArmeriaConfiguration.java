@@ -2,6 +2,7 @@ package com.ksyim.hellocron.server.configuration;
 
 import com.ksyim.hellocron.server.controller.CronController;
 import com.linecorp.armeria.client.ClientFactory;
+import com.linecorp.armeria.client.Clients;
 import com.linecorp.armeria.client.WebClient;
 import com.linecorp.armeria.client.logging.LoggingClient;
 import com.linecorp.armeria.common.CommonPools;
@@ -21,9 +22,16 @@ import static java.util.Objects.requireNonNull;
 @Configuration
 public class ArmeriaConfiguration {
 
-    static final String LINE_MESSAGING_API_TOKEN = requireNonNull(
-            System.getenv("LINE_MESSAGING_API_TOKEN"),
-            "env variable `LINE_MESSAGING_API_TOKEN` is not set");
+    static final String ARMERIA_ENV = requireNonNull(
+            System.getenv("ARMERIA_ENV"),
+            "env variable `ARMERIA_ENV` is not set");
+    static final String LINE_CHANNEL_SECRET = requireNonNull(
+            System.getenv("LINE_CHANNEL_SECRET"),
+            "env variable `LINE_CHANNEL_SECRET` is not set");
+    static final String LINE_CHANNEL_ACCESS_TOKEN = requireNonNull(
+            System.getenv("LINE_CHANNEL_ACCESS_TOKEN"),
+            "env variable `LINE_CHANNEL_ACCESS_TOKEN` is not set"
+    );
     static final int PORT = Integer.parseInt(
             requireNonNull(System.getenv("PORT"), "env variable `PORT` is not set"));
 
@@ -40,15 +48,12 @@ public class ArmeriaConfiguration {
 
     @Bean
     public EventLoopGroup getEventLoopWorkerGroup() {
-        String env = requireNonNull(
-                System.getenv("ARMERIA_ENV"), "env variable `ARMERIA_ENV` is not set");
-
-        if (env.equals("production")) { return CommonPools.workerGroup(); }
-        else if (env.equals("development")) { return EventLoopGroups.newEventLoopGroup(1); }
+        if (ARMERIA_ENV.equals("production")) { return CommonPools.workerGroup(); }
+        else if (ARMERIA_ENV.equals("development")) { return EventLoopGroups.newEventLoopGroup(1); }
         else {
             throw new RuntimeException(String.format(
                     "env variable `ARMERIA_ENV` must either be `production` or `development` but " +
-                            "`%s` was given.", env));
+                            "`%s` was given.", ARMERIA_ENV));
         }
     }
 
@@ -68,11 +73,12 @@ public class ArmeriaConfiguration {
 
     @Bean
     public WebClient lineMessagingClient(ClientFactory factory) {
-        return WebClient.builder("http://localhost:3000")
-                .factory(factory)
-                .decorator(LoggingClient.newDecorator())
-                .auth(OAuth2Token.of(LINE_MESSAGING_API_TOKEN))
-                .build();
+        return WebClient.builder("https://api.line.me")
+                        .factory(factory)
+                        .decorator(LoggingClient.newDecorator())
+                        .setHttpHeader("Content-Type", "application/json")
+                        .auth(OAuth2Token.of(LINE_CHANNEL_ACCESS_TOKEN))
+                        .build();
     }
 
     @Bean
@@ -80,6 +86,6 @@ public class ArmeriaConfiguration {
         return new AnnotatedServiceRegistrationBean()
                 .setPathPrefix("/line")
                 .setService(cronService)
-                .setServiceName("lint-bot");
+                .setServiceName("line-bot");
     }
 }
